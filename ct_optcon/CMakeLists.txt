@@ -128,13 +128,13 @@ if(BUILD_EXAMPLES)
 
     add_executable(ex_ConstraintOutput examples/ConstraintExampleOutput.cpp)
     target_link_libraries(ex_ConstraintOutput ${catkin_LIBRARIES})
-
+    
     add_executable(ex_LQR examples/LQR.cpp)
     target_link_libraries(ex_LQR ${catkin_LIBRARIES} ${LAPACK_LIBS})
-
+    
     add_executable(ex_NLOC examples/NLOC.cpp)
     target_link_libraries(ex_NLOC ${catkin_LIBRARIES} ${HPIPM_LIBS} ${MATLAB_LIBS})
-
+    
     add_executable(ex_NLOC_MPC examples/NLOC_MPC.cpp)
     target_link_libraries(ex_NLOC_MPC ${catkin_LIBRARIES} ${HPIPM_LIBS} ${MATLAB_LIBS})
 
@@ -143,11 +143,16 @@ if(BUILD_EXAMPLES)
 
     add_executable(ex_KalmanFiltering examples/KalmanFiltering.cpp)
     target_link_libraries(ex_KalmanFiltering ${catkin_LIBRARIES})
-
+    
     add_executable(ex_KalmanDisturbanceFiltering examples/KalmanDisturbanceFiltering.cpp)
     target_link_libraries(ex_KalmanDisturbanceFiltering ${catkin_LIBRARIES})
-endif()
 
+    add_executable(ex_Nlp_2D examples/nlp/Nlp2D.cpp)
+    target_link_libraries(ex_Nlp_2D ${catkin_LIBRARIES} ${NLP_LIBS})
+    
+    add_executable(ex_Nlp_3D examples/nlp/Nlp3D.cpp)
+    target_link_libraries(ex_Nlp_3D ${catkin_LIBRARIES} ${NLP_LIBS})
+endif()
 
 get_filename_component(DMS_OSC_TEST_MAT_DIR "test/dms/oscillator/matfiles" ABSOLUTE)
 configure_file(test/dms/oscillator/oscDMSTest_settings.h.in test/dms/oscillator/oscDMSTest_settings.h)
@@ -156,7 +161,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR}/test/dms/oscillator)
 catkin_add_gtest(LqrTest test/lqr/LqrTest.cpp)
 target_link_libraries(LqrTest ${catkin_LIBRARIES} ${LAPACK_LIBS} ${MATLAB_LIBS})
 
-catkin_add_gtest(iLQRTest test/nloc/iLQRTest.cpp)
+catkin_add_gtest(iLQRTest test/nloc/nonlinear/iLQRTest.cpp)
 target_link_libraries(iLQRTest ${catkin_LIBRARIES} ${MATLAB_LIBS} ${HPIPM_LIBS})
 
 if(HPIPM)
@@ -165,6 +170,9 @@ if(HPIPM)
 
     catkin_add_gtest(ConstrainedLQOCSolverTest test/solver/linear/ConstrainedLQOCSolverTest.cpp)
     target_link_libraries(ConstrainedLQOCSolverTest ${catkin_LIBRARIES} ${MATLAB_LIBS} ${HPIPM_LIBS})
+
+    catkin_add_gtest(ConstrainedNLOCTest test/nloc/constrained/ConstrainedNLOCTest.cpp)
+    target_link_libraries(ConstrainedNLOCTest ${catkin_LIBRARIES} ${MATLAB_LIBS} ${HPIPM_LIBS})
 
     add_executable(LQOCSolverTiming test/solver/linear/LQOCSolverTiming.cpp)
     target_link_libraries(LQOCSolverTiming ${catkin_LIBRARIES} ${MATLAB_LIBS} ${HPIPM_LIBS})
@@ -192,7 +200,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR}/test/nloc)
 catkin_add_gtest(LinearSystemTest test/nloc/LinearSystemTest.cpp)
 target_link_libraries(LinearSystemTest ${catkin_LIBRARIES} ${HPIPM_LIBS} ${MATLAB_LIBS})
 
-catkin_add_gtest(NonlinearSystemTest test/nloc/NonlinearSystemTest.cpp)
+catkin_add_gtest(NonlinearSystemTest test/nloc/nonlinear/NonlinearSystemTest.cpp)
 target_link_libraries(NonlinearSystemTest ${catkin_LIBRARIES} ${HPIPM_LIBS} ${MATLAB_LIBS})
 
 add_executable(SymplecticTest test/nloc/SymplecticTest.cpp)
